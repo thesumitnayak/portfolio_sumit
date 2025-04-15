@@ -107,9 +107,9 @@ const Navbar = () => {
     <nav
       id="main-navbar"
       className={`fixed top-0 w-full z-50 transition-all duration-500 px-4 sm:px-6 md:px-8 lg:px-20 ${
-  isScrolled 
-    ? "md:bg-[#050414] md:bg-opacity-60 md:backdrop-blur-md md:shadow-lg md:border-b md:border-cyan-400 md:border-opacity-30" 
-    : "bg-transparent"
+        isScrolled 
+          ? "md:bg-[#050414] md:bg-opacity-60 md:backdrop-blur-md md:shadow-lg md:border-b md:border-purple-600 md:border-opacity-30" 
+          : "bg-transparent"
       }`}
       style={{ willChange: 'background, box-shadow' }}
     >
@@ -118,7 +118,7 @@ const Navbar = () => {
         <div 
           className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none opacity-30"
           style={{
-            background: `radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(66, 220, 219, 0.6) 0%, rgba(18, 18, 40, 0) 30%)`,
+            background: `radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(155, 77, 202, 0.6) 0%, rgba(18, 18, 40, 0) 30%)`,
             willChange: 'background'
           }}
         />
@@ -129,7 +129,7 @@ const Navbar = () => {
         <div
           className="absolute inset-0 opacity-5 pointer-events-none"
           style={{
-            backgroundImage: 'linear-gradient(0deg, transparent 24%, rgba(66, 220, 219, 0.3) 25%, rgba(66, 220, 219, 0.3) 26%, transparent 27%, transparent 74%, rgba(66, 220, 219, 0.3) 75%, rgba(66, 220, 219, 0.3) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(66, 220, 219, 0.3) 25%, rgba(66, 220, 219, 0.3) 26%, transparent 27%, transparent 74%, rgba(66, 220, 219, 0.3) 75%, rgba(66, 220, 219, 0.3) 76%, transparent 77%, transparent)',
+            backgroundImage: 'linear-gradient(0deg, transparent 24%, rgba(155, 77, 202, 0.3) 25%, rgba(155, 77, 202, 0.3) 26%, transparent 27%, transparent 74%, rgba(155, 77, 202, 0.3) 75%, rgba(155, 77, 202, 0.3) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(155, 77, 202, 0.3) 25%, rgba(155, 77, 202, 0.3) 26%, transparent 27%, transparent 74%, rgba(155, 77, 202, 0.3) 75%, rgba(155, 77, 202, 0.3) 76%, transparent 77%, transparent)',
             backgroundSize: '30px 30px',
           }}
         />
@@ -138,14 +138,14 @@ const Navbar = () => {
       <div className="text-white py-5 flex justify-between items-center relative z-10">
         {/* Logo with neon effect */}
         <div className="text-lg font-semibold cursor-pointer group relative">
-          <span className="text-cyan-400 transition-all duration-300 group-hover:text-cyan-300">&lt;</span>
-          <span className="text-white transition-all duration-300 group-hover:text-cyan-100">Sumit</span>
-          <span className="text-cyan-400 transition-all duration-300 group-hover:text-cyan-300">/</span>
-          <span className="text-white transition-all duration-300 group-hover:text-cyan-100">Nayak</span>
-          <span className="text-cyan-400 transition-all duration-300 group-hover:text-cyan-300">&gt;</span>
+          <span className="text-purple-500 transition-all duration-300 group-hover:text-purple-400">&lt;</span>
+          <span className="text-white transition-all duration-300 group-hover:text-purple-100">Sumit</span>
+          <span className="text-purple-500 transition-all duration-300 group-hover:text-purple-400">/</span>
+          <span className="text-white transition-all duration-300 group-hover:text-purple-100">Nayak</span>
+          <span className="text-purple-500 transition-all duration-300 group-hover:text-purple-400">&gt;</span>
           
           {/* Neon underline effect */}
-          <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-400 transition-all duration-500 group-hover:w-full" 
+          <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-purple-500 transition-all duration-500 group-hover:w-full" 
                 style={{ willChange: 'width' }}></span>
         </div>
 
@@ -160,11 +160,11 @@ const Navbar = () => {
                 onClick={() => handleMenuItemClick(item.id)}
                 className={`relative py-1 px-2 transition-all duration-300 transform hover:scale-105 ${
                   activeSection === item.id 
-                    ? "text-cyan-400" 
+                    ? "text-[#9b4dca]" 
                     : "text-gray-300 hover:text-white"
                 }`}
                 style={{
-                  textShadow: activeSection === item.id ? "0 0 8px rgba(66, 220, 219, 0.6)" : "none",
+                  textShadow: activeSection === item.id ? "0 0 8px rgba(155, 77, 202, 0.6)" : "none",
                   willChange: 'transform, color, text-shadow'
                 }}
               >
@@ -174,7 +174,7 @@ const Navbar = () => {
                 <span 
                   className={`absolute bottom-0 left-0 w-full h-0.5 transform transition-all duration-300 ${
                     activeSection === item.id 
-                      ? "bg-cyan-400 opacity-100" 
+                      ? "bg-[#9b4dca] opacity-100" 
                       : "bg-transparent opacity-0"
                   }`}
                   style={{ willChange: 'opacity, background-color' }}
@@ -190,7 +190,7 @@ const Navbar = () => {
             href="https://github.com/thesumitnayak" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="text-gray-300 hover:text-cyan-400 transform transition-all duration-300 hover:scale-110"
+            className="text-gray-300 hover:text-[#9b4dca] transform transition-all duration-300 hover:scale-110"
             style={{ willChange: 'transform, filter' }}
           >
             <FaGithub size={20} />
@@ -199,7 +199,7 @@ const Navbar = () => {
             href="https://www.upwork.com/freelancers/~01dc8c28243fc3d432" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="text-gray-300 hover:text-cyan-400 transform transition-all duration-300 hover:scale-110"
+            className="text-gray-300 hover:text-[#9b4dca] transform transition-all duration-300 hover:scale-110"
             style={{ willChange: 'transform, filter' }}
           >
             <FaUpwork size={20} />
@@ -208,7 +208,7 @@ const Navbar = () => {
             href="https://www.fiverr.com/iamsumitnayak/" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="text-gray-300 hover:text-cyan-400 transform transition-all duration-300 hover:scale-110"
+            className="text-gray-300 hover:text-[#9b4dca] transform transition-all duration-300 hover:scale-110"
             style={{ willChange: 'transform, filter' }}
           >
             <TbBrandFiverr size={20} />
@@ -217,7 +217,7 @@ const Navbar = () => {
             href="https://www.instagram.com/thesumitnayak?igsh=YjBibm5maHdteWVh&utm_source=qr" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="text-gray-300 hover:text-cyan-400 transform transition-all duration-300 hover:scale-110"
+            className="text-gray-300 hover:text-[#9b4dca] transform transition-all duration-300 hover:scale-110"
             style={{ willChange: 'transform, filter' }}
           >
             <FaInstagram size={20} />
@@ -228,15 +228,15 @@ const Navbar = () => {
         <div className="md:hidden">
           {isOpen ? (
             <FiX 
-              className="text-3xl text-cyan-400 cursor-pointer" 
+              className="text-3xl text-[#9b4dca] cursor-pointer" 
               onClick={() => setIsOpen(false)}
-              style={{ filter: 'drop-shadow(0 0 5px rgba(66, 220, 219, 0.8))' }}
+              style={{ filter: 'drop-shadow(0 0 5px rgba(155, 77, 202, 0.8))' }}
             />
           ) : (
             <FiMenu 
-              className="text-3xl text-cyan-400 cursor-pointer"
+              className="text-3xl text-[#9b4dca] cursor-pointer"
               onClick={() => setIsOpen(true)}
-              style={{ filter: 'drop-shadow(0 0 5px rgba(66, 220, 219, 0.8))' }}
+              style={{ filter: 'drop-shadow(0 0 5px rgba(155, 77, 202, 0.8))' }}
             />
           )}
         </div>
@@ -246,11 +246,11 @@ const Navbar = () => {
       <div
         className={`w-full bg-[#050414] bg-opacity-90 ${
           isOpen ? "backdrop-blur-lg" : ""
-        } py-4 md:hidden rounded-b-xl border-b border-l border-r border-cyan-400 border-opacity-30 shadow-lg transition-all duration-500 transform ${
+        } py-4 md:hidden rounded-b-xl border-b border-l border-r border-purple-600 border-opacity-30 shadow-lg transition-all duration-500 transform ${
           isOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10 pointer-events-none"
         }`}
         style={{
-          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.1), 0 0 10px rgba(66, 220, 219, 0.2)',
+          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.1), 0 0 10px rgba(155, 77, 202, 0.2)',
           willChange: 'transform, opacity'
         }}
       >
@@ -264,35 +264,35 @@ const Navbar = () => {
                 onClick={() => handleMenuItemClick(item.id)}
                 className={`py-2 px-6 relative inline-block transition-all duration-300 ${
                   activeSection === item.id 
-                    ? "text-cyan-400" 
+                    ? "text-[#9b4dca]" 
                     : "text-gray-300 hover:text-white"
                 }`}
                 style={{
-                  textShadow: activeSection === item.id ? "0 0 8px rgba(66, 220, 219, 0.6)" : "none"
+                  textShadow: activeSection === item.id ? "0 0 8px rgba(155, 77, 202, 0.6)" : "none"
                 }}
               >
                 {item.label}
                 
                 {/* Active indicator for mobile */}
                 {activeSection === item.id && (
-                  <span className="absolute bottom-0 left-1/2 w-2 h-2 bg-cyan-400 rounded-full transform -translate-x-1/2 translate-y-1/2"></span>
+                  <span className="absolute bottom-0 left-1/2 w-2 h-2 bg-[#9b4dca] rounded-full transform -translate-x-1/2 translate-y-1/2"></span>
                 )}
               </button>
             </li>
           ))}
           
           {/* Social icons for mobile */}
-          <div className="flex justify-center items-center space-x-6 pt-4 border-t border-cyan-400 border-opacity-20 w-3/4">
-            <a href="https://github.com/thesumitnayak" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-cyan-400 transition-colors duration-300">
+          <div className="flex justify-center items-center space-x-6 pt-4 border-t border-purple-600 border-opacity-20 w-3/4">
+            <a href="https://github.com/thesumitnayak" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-[#9b4dca] transition-colors duration-300">
               <FaGithub size={20} />
             </a>
-            <a href="https://www.upwork.com/freelancers/~01dc8c28243fc3d432" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-cyan-400 transition-colors duration-300">
+            <a href="https://www.upwork.com/freelancers/~01dc8c28243fc3d432" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-[#9b4dca] transition-colors duration-300">
               <FaUpwork size={20} />
             </a>
-            <a href="https://www.fiverr.com/iamsumitnayak/" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-cyan-400 transition-colors duration-300">
+            <a href="https://www.fiverr.com/iamsumitnayak/" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-[#9b4dca] transition-colors duration-300">
               <TbBrandFiverr size={20} />
             </a>
-            <a href="https://www.instagram.com/thesumitnayak?igsh=YjBibm5maHdteWVh&utm_source=qr" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-cyan-400 transition-colors duration-300">
+            <a href="https://www.instagram.com/thesumitnayak?igsh=YjBibm5maHdteWVh&utm_source=qr" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-[#9b4dca] transition-colors duration-300">
               <FaInstagram size={20} />
             </a>
           </div>
