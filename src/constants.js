@@ -37,6 +37,7 @@ import csharpLogo from './assets/tech_logo/csharp.png';
 import webverseLogo from './assets/company_logo/webverse_logo.png';
 import agcLogo from './assets/company_logo/agc_logo.png';
 import newtonschoolLogo from './assets/company_logo/newtonschool_logo.png';
+import lnwLogo from './assets/company_logo/lnw_logo.jpeg';
 
 // Education Section Logo's
 import glaLogo from './assets/education_logo/gla_logo.png';
@@ -115,55 +116,37 @@ export const SkillsInfo = [
   export const experiences = [
     {
       id: 0,
-      img: webverseLogo,
-      role: "Fullstack Developer",
-      company: "Webverse Digital",
-      date: "April 2024 - Present",
-      desc: "Developed dynamic web applications using React.js, Angular, and C#, handling both frontend and backend. Collaborated in agile teams to build responsive UIs, implement RESTful APIs, and optimize performance for scalable solutions.",
+      img: lnwLogo,
+      role: "Senior Associate Software Engineer",
+      company: "Light & Wonder",
+      date: "Aug 2023 - Present",
+      desc: "Developed and maintained dynamic web applications using React.js, Angular, and C# on the backend. Worked closely with cross-functional agile teams to deliver responsive, user-centric UIs and integrate RESTful APIs. Played a key role in performance optimization, build management, and deploying high-quality features to customers in a fast-paced production environment.",
       skills: [
         "HTML",
         "CSS",
         "JavaScript",
         "React JS",
+        "Angular",
         "TypeScript",
-        "Node JS",
-        "Tailwind CSS",
-        "MongoDb",
-        "Redux",
-        " Next Js",
+        "C#",
+        "RESTful API's",
       ],
     },
     {
       id: 1,
-      img: agcLogo,
-      role: "Fullstack Engineer",
-      company: "Agumentik Group of Companies",
-      date: "July 2023 - March 2024",
-      desc: "Contributed to innovative projects as a Fullstack Engineer, leading both frontend and backend development using technologies such as HTML, CSS, JavaScript, PHP, SQL, Bootstrap, and ReactJS. Worked closely with the team to deliver responsive, high-performance web applications and improve user experience through seamless integration of various technologies.",
+      img: lnwLogo,
+      role: "Intern",
+      company: "Light & Wonder",
+      date: "Feb 2023 - Jul 2023",
+      desc: "Contributed to the development and testing of scalable web applications, with a strong focus on performance and cross-environment reliability. I worked extensively with React.js, building dynamic interfaces and enhancing existing features as part of the iVIEW Project. My role also included automating test cases using the Robot Framework with Python, streamlining QA processes and improving overall product stability",
       skills: [
+        "HTML",
+        "CSS",
         "ReactJS",
-        "Redux",
-        "JavaScript",
-        "Tailwind CSS",
-        "HTML",
-        "CSS",
-        "SQL",
-      ],
-    },
-    {
-      id: 2,
-      img: newtonschoolLogo,
-      role: "Frontend Intern",
-      company: "Newton School",
-      date: "September 2021 - August 2022",
-      desc: "Worked as a Frontend Developer Intern, designing and implementing scalable UI components and responsive websites using HTML, CSS, JavaScript, Bootstrap, and Material UI. Collaborated with the design team to translate wireframes and prototypes from Figma into interactive, user-friendly web pages.",
-      skills: [
-        "HTML",
-        "CSS",
-        "Javascript",
-        "Bootstrap",
-        "Figma",
-        "Material UI",
+        "TypeScript",
+        "Angular",
+        "Python",
+        "Robot Framework"
       ],
     },
   ];
