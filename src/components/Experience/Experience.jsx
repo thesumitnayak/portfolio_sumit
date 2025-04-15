@@ -93,11 +93,7 @@ const Experience = () => {
         }}
       />
 
-      {/* Animated corner accents for cyberpunk feel */}
-      <div className="absolute top-0 left-0 w-16 h-16 border-t-2 border-l-2 border-purple-500 opacity-70"></div>
-      <div className="absolute top-0a right-0 w-16 h-16 border-t-2 border-r-2 border-purple-500 opacity-70"></div>
-      <div className="absolute bottom-0 left-0 w-16 h-16 border-b-2 border-l-2 border-purple-500 opacity-70"></div>
-      <div className="absolute bottom-0 right-0 w-16 h-16 border-b-2 border-r-2 border-purple-500 opacity-70"></div>
+      {/* Removed the animated corner accents that were causing the boundary issue */}
 
       {/* Section Title with neon effect */}
       <div className="text-center mb-16 relative z-10">
