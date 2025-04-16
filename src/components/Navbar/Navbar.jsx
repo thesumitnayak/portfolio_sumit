@@ -11,25 +11,18 @@ const Navbar = () => {
   const [mousePosition, setMousePosition] = useState(null);
   const [isScrolling, setIsScrolling] = useState(false);
   
-  // Refs for throttling events
   const scrollThrottleRef = useRef(null);
   const mouseMoveThrottleRef = useRef(null);
 
-  // Track scroll position for navbar background
   useEffect(() => {
     const handleScroll = () => {
-      // Detect scrolling state
       setIsScrolling(true);
       if (scrollThrottleRef.current) {
         clearTimeout(scrollThrottleRef.current);
       }
-      
-      // Reset scrolling state after 200ms of no scroll events
       scrollThrottleRef.current = setTimeout(() => {
         setIsScrolling(false);
       }, 200);
-      
-      // Update navbar background based on scroll position
       setIsScrolled(window.scrollY > 50);
     };
 
@@ -42,18 +35,11 @@ const Navbar = () => {
     };
   }, []);
 
-  // Track mouse position for hover effects with throttling
   useEffect(() => {
     const handleMouseMove = (e) => {
-      // Skip processing during scroll for better performance
-      if (isScrolling) {
-        return;
-      }
-      
-      // Throttle mouse move event processing
+      if (isScrolling) return;
       if (!mouseMoveThrottleRef.current) {
         mouseMoveThrottleRef.current = setTimeout(() => {
-          // Only track mouse position in the navbar area
           const navElement = document.getElementById('main-navbar');
           if (navElement) {
             const rect = navElement.getBoundingClientRect();
@@ -63,7 +49,6 @@ const Navbar = () => {
               e.clientY >= rect.top &&
               e.clientY <= rect.bottom
             ) {
-              // Calculate position relative to navbar
               setMousePosition({
                 x: e.clientX - rect.left,
                 y: e.clientY - rect.top
@@ -73,7 +58,7 @@ const Navbar = () => {
             }
           }
           mouseMoveThrottleRef.current = null;
-        }, 30); // Limit to ~33fps for smooth performance
+        }, 30);
       }
     };
 
@@ -89,7 +74,6 @@ const Navbar = () => {
   const handleMenuItemClick = (sectionId) => {
     setActiveSection(sectionId);
     setIsOpen(false);
-
     const section = document.getElementById(sectionId);
     if (section) {
       section.scrollIntoView({ behavior: "smooth" });
@@ -113,7 +97,6 @@ const Navbar = () => {
       }`}
       style={{ willChange: 'background, box-shadow' }}
     >
-      {/* Animated hover effect for navbar - only when not scrolling */}
       {mousePosition && !isScrolling && (
         <div 
           className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none opacity-30"
@@ -124,7 +107,6 @@ const Navbar = () => {
         />
       )}
 
-      {/* Subtle grid overlay - simplified when scrolling */}
       {!isScrolling && (
         <div
           className="absolute inset-0 opacity-5 pointer-events-none"
@@ -136,26 +118,18 @@ const Navbar = () => {
       )}
       
       <div className="text-white py-5 flex justify-between items-center relative z-10">
-        {/* Logo with neon effect */}
+        {/* Updated Logo with ⟦ Sumit Nayak ⟧ */}
         <div className="text-lg font-semibold cursor-pointer group relative">
-          <span className="text-purple-500 transition-all duration-300 group-hover:text-purple-400">&lt;</span>
-          <span className="text-white transition-all duration-300 group-hover:text-purple-100">Sumit</span>
-          <span className="text-purple-500 transition-all duration-300 group-hover:text-purple-400">/</span>
-          <span className="text-white transition-all duration-300 group-hover:text-purple-100">Nayak</span>
-          <span className="text-purple-500 transition-all duration-300 group-hover:text-purple-400">&gt;</span>
-          
-          {/* Neon underline effect */}
+          <span className="text-purple-500 transition-all duration-300 group-hover:text-purple-400">⟦</span>
+          <span className="text-white transition-all duration-300 group-hover:text-purple-100">&nbsp;Sumit&nbsp;Nayak&nbsp;</span>
+          <span className="text-purple-500 transition-all duration-300 group-hover:text-purple-400">⟧</span>
           <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-purple-500 transition-all duration-500 group-hover:w-full" 
                 style={{ willChange: 'width' }}></span>
         </div>
 
-        {/* Desktop Menu with hover effects */}
         <ul className="hidden md:flex space-x-8 text-gray-300">
           {menuItems.map((item) => (
-            <li
-              key={item.id}
-              className="relative overflow-hidden"
-            >
+            <li key={item.id} className="relative overflow-hidden">
               <button 
                 onClick={() => handleMenuItemClick(item.id)}
                 className={`relative py-1 px-2 transition-all duration-300 transform hover:scale-105 ${
@@ -169,8 +143,6 @@ const Navbar = () => {
                 }}
               >
                 {item.label}
-                
-                {/* Active indicator line with animation */}
                 <span 
                   className={`absolute bottom-0 left-0 w-full h-0.5 transform transition-all duration-300 ${
                     activeSection === item.id 
@@ -184,65 +156,30 @@ const Navbar = () => {
           ))}
         </ul>
 
-        {/* Social Icons with animated glow effects */}
         <div className="hidden md:flex space-x-5">
-          <a 
-            href="https://github.com/thesumitnayak" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="text-gray-300 hover:text-[#9b4dca] transform transition-all duration-300 hover:scale-110"
-            style={{ willChange: 'transform, filter' }}
-          >
+          <a href="https://github.com/thesumitnayak" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-[#9b4dca] transform transition-all duration-300 hover:scale-110">
             <FaGithub size={20} />
           </a>
-          <a 
-            href="https://www.upwork.com/freelancers/~01dc8c28243fc3d432" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="text-gray-300 hover:text-[#9b4dca] transform transition-all duration-300 hover:scale-110"
-            style={{ willChange: 'transform, filter' }}
-          >
+          <a href="https://www.upwork.com/freelancers/~01dc8c28243fc3d432" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-[#9b4dca] transform transition-all duration-300 hover:scale-110">
             <FaUpwork size={20} />
           </a>
-          <a 
-            href="https://www.fiverr.com/iamsumitnayak/" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="text-gray-300 hover:text-[#9b4dca] transform transition-all duration-300 hover:scale-110"
-            style={{ willChange: 'transform, filter' }}
-          >
+          <a href="https://www.fiverr.com/iamsumitnayak/" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-[#9b4dca] transform transition-all duration-300 hover:scale-110">
             <TbBrandFiverr size={20} />
           </a>
-          <a 
-            href="https://www.instagram.com/thesumitnayak?igsh=YjBibm5maHdteWVh&utm_source=qr" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="text-gray-300 hover:text-[#9b4dca] transform transition-all duration-300 hover:scale-110"
-            style={{ willChange: 'transform, filter' }}
-          >
+          <a href="https://www.instagram.com/thesumitnayak?igsh=YjBibm5maHdteWVh&utm_source=qr" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-[#9b4dca] transform transition-all duration-300 hover:scale-110">
             <FaInstagram size={20} />
           </a>
         </div>
 
-        {/* Mobile Menu Toggle Button with glow effect */}
         <div className="md:hidden">
           {isOpen ? (
-            <FiX 
-              className="text-3xl text-[#9b4dca] cursor-pointer" 
-              onClick={() => setIsOpen(false)}
-              style={{ filter: 'drop-shadow(0 0 5px rgba(155, 77, 202, 0.8))' }}
-            />
+            <FiX className="text-3xl text-[#9b4dca] cursor-pointer" onClick={() => setIsOpen(false)} style={{ filter: 'drop-shadow(0 0 5px rgba(155, 77, 202, 0.8))' }} />
           ) : (
-            <FiMenu 
-              className="text-3xl text-[#9b4dca] cursor-pointer"
-              onClick={() => setIsOpen(true)}
-              style={{ filter: 'drop-shadow(0 0 5px rgba(155, 77, 202, 0.8))' }}
-            />
+            <FiMenu className="text-3xl text-[#9b4dca] cursor-pointer" onClick={() => setIsOpen(true)} style={{ filter: 'drop-shadow(0 0 5px rgba(155, 77, 202, 0.8))' }} />
           )}
         </div>
       </div>
 
-      {/* Mobile Menu with animated transition */}
       <div
         className={`w-full bg-[#050414] bg-opacity-90 ${
           isOpen ? "backdrop-blur-lg" : ""
@@ -256,10 +193,7 @@ const Navbar = () => {
       >
         <ul className="flex flex-col items-center space-y-4 text-gray-300">
           {menuItems.map((item) => (
-            <li
-              key={item.id}
-              className="cursor-pointer w-full text-center"
-            >
+            <li key={item.id} className="cursor-pointer w-full text-center">
               <button 
                 onClick={() => handleMenuItemClick(item.id)}
                 className={`py-2 px-6 relative inline-block transition-all duration-300 ${
@@ -272,16 +206,12 @@ const Navbar = () => {
                 }}
               >
                 {item.label}
-                
-                {/* Active indicator for mobile */}
                 {activeSection === item.id && (
                   <span className="absolute bottom-0 left-1/2 w-2 h-2 bg-[#9b4dca] rounded-full transform -translate-x-1/2 translate-y-1/2"></span>
                 )}
               </button>
             </li>
           ))}
-          
-          {/* Social icons for mobile */}
           <div className="flex justify-center items-center space-x-6 pt-4 border-t border-purple-600 border-opacity-20 w-3/4">
             <a href="https://github.com/thesumitnayak" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-[#9b4dca] transition-colors duration-300">
               <FaGithub size={20} />
