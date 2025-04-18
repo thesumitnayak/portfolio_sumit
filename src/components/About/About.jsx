@@ -32,10 +32,12 @@ const About = () => {
               )}
             />
           </h1>
+          
           {/* Name */}
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4 leading-tight">
             Sumit Nayak
           </h2>
+          
           {/* Skills Heading with Typing Effect */}
           <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold mb-4 text-[#9b4dca] leading-tight">
             <span className="text-white">I am a </span>
@@ -45,7 +47,7 @@ const About = () => {
                 'App Developer',
                 'UI/UX Designer',
                 'Coder',
-                'Photographer'
+                'Software Engineer'
               ]}
               speed={100}
               eraseSpeed={50}
@@ -56,16 +58,21 @@ const About = () => {
               )}
             />
           </h3>
+          
           {/* About Me Paragraph */}
           <p className="text-base sm:text-lg md:text-lg text-gray-400 mb-10 mt-8 leading-relaxed">
-            Hi, I'm Sumit — Full Stack Developer by profession, bug exterminator by passion, and caffeine enthusiast by necessity.
-
-            With over 2 years of experience building scalable, high-performance web applications, I spend most of my time turning coffee into code and figuring out why things were working perfectly five minutes ago.
-
-            I'm fluent in the languages of both the front-end and back-end. MERN stack? Check. TypeScript? Love it. Java with Spring Boot? Practically a second language. Microservices? I break things into tiny pieces for fun.
-
-            Also, not to brag (okay, maybe a little), but I once snagged 2nd place in a hackathon with over 1,400 teams. It was intense. There was no sleep, questionable snacks, and enough Git commits to crash a laptop. But hey — victory smells like instant noodles and JSON.
+            I'm Sumit — Where Code Meets Creativity. By day, I transform complex challenges into elegant digital solutions. 
+            By night, I'm still doing that because deadlines wait for no one. As a Full Stack Developer with 2+ years in the trenches, 
+            I architect experiences that users love and servers don't crash under. My digital toolbox? The full MERN stack forms my foundation, 
+            TypeScript keeps my code honest, Java+Spring Boot powers my backend logic, and my microservice architecture skills make monoliths tremble. 
+            When mobile matters, my Kotlin expertise brings Android apps to life. I hunt bugs with surgical precision and build interfaces with pixel-perfect obsession. 
+            My code is clean, my commits are meaningful, and my APIs are so RESTful they should come with a pillow.
+            
+            Oh, and not to brag (okay, maybe just a little), but I once snagged 2nd place in a hackathon with over 1,400 teams. 
+            It involved no sleep, questionable snacks, and enough Git commits to write a novella. 
+            But hey — victory smells like instant noodles and well-formatted JSON.
           </p>
+          
           {/* Buttons */}
           <div className="flex flex-wrap gap-4">
             <a

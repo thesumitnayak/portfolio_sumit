@@ -110,8 +110,8 @@ const Footer = () => {
     { icon: <FaHackerrank />, link: "https://www.hackerrank.com/profile/thesumitnayak", label: "HackerRank" },
     { icon: <FaGithub />, link: "https://github.com/thesumitnayak", label: "GitHub" },
     { icon: <FaInstagram />, link: "https://www.instagram.com/thesumitnayak", label: "Instagram" },
-    { icon: <FaLinkedin />, link: "#", label: "LinkedIn" },
-    { icon: <FaTwitter />, link: "#", label: "Twitter" }
+    // { icon: <FaLinkedin />, link: "#", label: "LinkedIn" },
+    // { icon: <FaTwitter />, link: "#", label: "Twitter" }
   ];
 
   const navigationLinks = [
@@ -226,7 +226,7 @@ const Footer = () => {
               </div>
             </div>
             
-            {/* Social Media Links */}
+            {/* Social Media Links - UPDATED FOR BETTER MOBILE VISIBILITY */}
             <div className="mt-8">
               <h3 
                 className="text-xl font-bold mb-4"
@@ -252,9 +252,11 @@ const Footer = () => {
                     <div 
                       className="p-3 rounded-lg transition-all duration-300 text-xl"
                       style={{
-                        background: isHovering === `social-${index}` ? 'linear-gradient(135deg, #8245ec 0%, #d53f8c 100%)' : 'rgba(13, 8, 31, 0.8)',
+                        background: isHovering === `social-${index}` ? 'linear-gradient(135deg, #8245ec 0%, #d53f8c 100%)' : 'rgba(40, 25, 80, 0.8)',
                         boxShadow: isHovering === `social-${index}` ? '0 0 15px rgba(130, 69, 236, 0.7)' : '0 0 5px rgba(130, 69, 236, 0.3)',
                         transform: isHovering === `social-${index}` ? 'translateY(-3px)' : 'translateY(0)',
+                        color: isHovering === `social-${index}` ? '#ffffff' : '#c4b5fd',
+                        border: '1px solid rgba(130, 69, 236, 0.3)'
                       }}
                     >
                       {item.icon}
