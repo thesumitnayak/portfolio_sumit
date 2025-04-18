@@ -47,7 +47,8 @@ const About = () => {
                 'App Developer',
                 'UI/UX Designer',
                 'Coder',
-                'Software Engineer'
+                'Software Engineer',
+                'Problem Solver'
               ]}
               speed={100}
               eraseSpeed={50}
