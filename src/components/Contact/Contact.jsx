@@ -194,13 +194,13 @@ const Contact = () => {
         >
           {/* Cyberpunk corner accents */}
           <div 
-            className="absolute top-0 left-0 w-16 h-16"
+            className="absolute top-0 left-0 w-16 h-16 pointer-events-none"
             style={{
               background: 'linear-gradient(45deg, rgba(130, 69, 236, 0.4) 0%, transparent 50%)',
             }}
           ></div>
           <div 
-            className="absolute bottom-0 right-0 w-16 h-16"
+            className="absolute bottom-0 right-0 w-16 h-16 pointer-events-none"
             style={{
               background: 'linear-gradient(225deg, rgba(130, 69, 236, 0.4) 0%, transparent 50%)',
             }}
@@ -227,7 +227,7 @@ const Contact = () => {
                 onBlur={() => setFocusedField(null)}
                 placeholder="Your Email"
                 required
-                className="w-full p-3 rounded-md bg-gray-900 text-gray-200 border transition-all duration-300"
+                className="w-full p-3 rounded-md bg-gray-900 text-gray-200 border z-20 relative"
                 style={{
                   borderColor: focusedField === "user_email" ? '#8245ec' : 'rgba(107, 114, 128, 0.5)',
                   boxShadow: focusedField === "user_email" ? '0 0 10px rgba(130, 69, 236, 0.5)' : 'none',
@@ -235,7 +235,7 @@ const Contact = () => {
               />
               {focusedField === "user_email" && (
                 <div 
-                  className="absolute bottom-0 left-0 h-0.5 bg-purple-500"
+                  className="absolute bottom-0 left-0 h-0.5 bg-purple-500 pointer-events-none"
                   style={{
                     width: `${Math.min(100, formData.user_email.length * 5)}%`,
                     maxWidth: '100%',
@@ -256,7 +256,7 @@ const Contact = () => {
                 onBlur={() => setFocusedField(null)}
                 placeholder="Your Name"
                 required
-                className="w-full p-3 rounded-md bg-gray-900 text-gray-200 border transition-all duration-300"
+                className="w-full p-3 rounded-md bg-gray-900 text-gray-200 border z-20 relative"
                 style={{
                   borderColor: focusedField === "user_name" ? '#8245ec' : 'rgba(107, 114, 128, 0.5)',
                   boxShadow: focusedField === "user_name" ? '0 0 10px rgba(130, 69, 236, 0.5)' : 'none',
@@ -264,7 +264,7 @@ const Contact = () => {
               />
               {focusedField === "user_name" && (
                 <div 
-                  className="absolute bottom-0 left-0 h-0.5 bg-purple-500"
+                  className="absolute bottom-0 left-0 h-0.5 bg-purple-500 pointer-events-none"
                   style={{
                     width: `${Math.min(100, formData.user_name.length * 5)}%`,
                     maxWidth: '100%',
@@ -285,7 +285,7 @@ const Contact = () => {
                 onBlur={() => setFocusedField(null)}
                 placeholder="Subject"
                 required
-                className="w-full p-3 rounded-md bg-gray-900 text-gray-200 border transition-all duration-300"
+                className="w-full p-3 rounded-md bg-gray-900 text-gray-200 border z-20 relative"
                 style={{
                   borderColor: focusedField === "subject" ? '#8245ec' : 'rgba(107, 114, 128, 0.5)',
                   boxShadow: focusedField === "subject" ? '0 0 10px rgba(130, 69, 236, 0.5)' : 'none',
@@ -293,7 +293,7 @@ const Contact = () => {
               />
               {focusedField === "subject" && (
                 <div 
-                  className="absolute bottom-0 left-0 h-0.5 bg-purple-500"
+                  className="absolute bottom-0 left-0 h-0.5 bg-purple-500 pointer-events-none"
                   style={{
                     width: `${Math.min(100, formData.subject.length * 2)}%`,
                     maxWidth: '100%',
@@ -314,7 +314,7 @@ const Contact = () => {
                 placeholder="Message"
                 rows="4"
                 required
-                className="w-full p-3 rounded-md bg-gray-900 text-gray-200 border transition-all duration-300"
+                className="w-full p-3 rounded-md bg-gray-900 text-gray-200 border z-20 relative"
                 style={{
                   borderColor: focusedField === "message" ? '#8245ec' : 'rgba(107, 114, 128, 0.5)',
                   boxShadow: focusedField === "message" ? '0 0 10px rgba(130, 69, 236, 0.5)' : 'none',
@@ -322,7 +322,7 @@ const Contact = () => {
               />
               {focusedField === "message" && (
                 <div 
-                  className="absolute bottom-0 left-0 h-0.5 bg-purple-500"
+                  className="absolute bottom-0 left-0 h-0.5 bg-purple-500 pointer-events-none"
                   style={{
                     width: `${Math.min(100, formData.message.length / 2)}%`,
                     maxWidth: '100%',
@@ -336,7 +336,7 @@ const Contact = () => {
             {/* Send Button with enhanced styling and animation */}
             <button
               type="submit"
-              className="w-full py-3 font-bold text-lg rounded-md relative overflow-hidden transition-all duration-300"
+              className="w-full py-3 font-bold text-lg rounded-md relative overflow-hidden transition-all duration-300 z-20"
               style={{
                 background: 'linear-gradient(135deg, #8245ec 0%, #d53f8c 100%)',
                 boxShadow: '0 0 15px rgba(130, 69, 236, 0.5), inset 0 0 10px rgba(213, 63, 140, 0.3)',
@@ -354,7 +354,7 @@ const Contact = () => {
             >
               {/* Button animated light effect */}
               <div 
-                className="absolute inset-0 w-full" 
+                className="absolute inset-0 w-full pointer-events-none" 
                 style={{
                   background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent)',
                   transform: 'translateX(-100%)',
