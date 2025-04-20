@@ -13,24 +13,32 @@ const Contact = () => {
     message: ""
   });
   const [focusedField, setFocusedField] = useState(null);
+  const [activeField, setActiveField] = useState(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isScrolling, setIsScrolling] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [buttonActive, setButtonActive] = useState(false);
   
   const mouseMoveThrottleRef = useRef(null);
   const scrollThrottleRef = useRef(null);
   
-  // Detect if device is mobile
+  // Enhanced mobile and touch detection
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.matchMedia("(max-width: 768px)").matches);
+    const checkDevice = () => {
+      const isMobileSize = window.matchMedia("(max-width: 768px)").matches;
+      const hasTouchCapability = 'ontouchstart' in window || 
+        navigator.maxTouchPoints > 0 ||
+        navigator.msMaxTouchPoints > 0;
+        
+      // Consider it mobile if either the screen is small OR it has touch capability
+      setIsMobile(isMobileSize || hasTouchCapability);
     };
     
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
     
     return () => {
-      window.removeEventListener('resize', checkMobile);
+      window.removeEventListener('resize', checkDevice);
     };
   }, []);
   
@@ -59,8 +67,10 @@ const Contact = () => {
     };
   }, []);
   
-  // Track mouse position for spotlight effect with throttling
+  // Track mouse position for spotlight effect with throttling - only on non-mobile
   useEffect(() => {
+    if (isMobile) return; // Skip for mobile devices
+    
     const handleMouseMove = (e) => {
       if (!mouseMoveThrottleRef.current) {
         mouseMoveThrottleRef.current = setTimeout(() => {
@@ -77,7 +87,7 @@ const Contact = () => {
         clearTimeout(mouseMoveThrottleRef.current);
       }
     };
-  }, []);
+  }, [isMobile]);
 
   // Add effect to override global touch/click effects when component mounts
   useEffect(() => {
@@ -85,7 +95,6 @@ const Contact = () => {
     const styleElement = document.createElement('style');
     
     // Define CSS to override global touch effects for this section
-    // Note: We're being more careful to not disable critical mobile functionality
     styleElement.textContent = `
       #contact button, 
       #contact .cyberpunk-corners, 
@@ -108,6 +117,20 @@ const Contact = () => {
         outline: none !important;
         box-shadow: 0 0 10px rgba(130, 69, 236, 0.5) !important;
         border-color: #8245ec !important;
+      }
+      
+      /* Improve touch area size on mobile */
+      @media (max-width: 768px) {
+        #contact input,
+        #contact textarea,
+        #contact button {
+          font-size: 16px !important; /* Prevent zoom on iOS */
+          min-height: 44px !important; /* Apple recommended touch target size */
+        }
+        
+        #contact button {
+          padding: 12px !important;
+        }
       }
     `;
     
@@ -185,6 +208,15 @@ const Contact = () => {
       );
   };
 
+  // Universal handler for touch interactions
+  const handleTouchStart = (fieldName) => {
+    setActiveField(fieldName);
+  };
+
+  const handleTouchEnd = () => {
+    setActiveField(null);
+  };
+
   return (
     <section
       id="contact"
@@ -195,17 +227,17 @@ const Contact = () => {
         willChange: 'auto'
       }}
     >
-      {/* Background animated gradient - only show when not scrolling and not on mobile */}
-      {!isScrolling && !isMobile && (
+      {/* Background animated gradient - strictly only for desktop and non-scrolling states */}
+      {!isScrolling && !isMobile ? (
         <div 
           className="absolute inset-0 opacity-20" 
           style={{
-            background: `radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(130, 69, 236, 0.6) 0%, rgba(18, 18, 40, 0) 30%)`,
+            //background: `radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(130, 69, 236, 0.6) 0%, rgba(18, 18, 40, 0) 30%)`,
             pointerEvents: 'none',
             willChange: 'background'
           }}
         />
-      )}
+      ) : null}
       
       {/* Cyberpunk-inspired grid overlay - less intensive when scrolling */}
       <div
@@ -281,15 +313,22 @@ const Contact = () => {
                 onChange={handleInputChange}
                 onFocus={() => setFocusedField("user_email")}
                 onBlur={() => setFocusedField(null)}
+                onTouchStart={() => handleTouchStart("user_email")}
+                onTouchEnd={handleTouchEnd}
+                onTouchCancel={handleTouchEnd}
                 placeholder="Your Email"
                 required
                 className="w-full p-3 rounded-md bg-gray-900 text-gray-200 border transition-all duration-300"
                 style={{
-                  borderColor: focusedField === "user_email" ? '#8245ec' : 'rgba(107, 114, 128, 0.5)',
-                  boxShadow: focusedField === "user_email" ? '0 0 10px rgba(130, 69, 236, 0.5)' : 'none',
+                  borderColor: focusedField === "user_email" || activeField === "user_email" 
+                    ? '#8245ec' 
+                    : 'rgba(107, 114, 128, 0.5)',
+                  boxShadow: focusedField === "user_email" || activeField === "user_email" 
+                    ? '0 0 10px rgba(130, 69, 236, 0.5)' 
+                    : 'none',
                 }}
               />
-              {focusedField === "user_email" && (
+              {(focusedField === "user_email" || activeField === "user_email") && (
                 <div 
                   className="absolute bottom-0 left-0 h-0.5 bg-purple-500"
                   style={{
@@ -310,15 +349,22 @@ const Contact = () => {
                 onChange={handleInputChange}
                 onFocus={() => setFocusedField("user_name")}
                 onBlur={() => setFocusedField(null)}
+                onTouchStart={() => handleTouchStart("user_name")}
+                onTouchEnd={handleTouchEnd}
+                onTouchCancel={handleTouchEnd}
                 placeholder="Your Name"
                 required
                 className="w-full p-3 rounded-md bg-gray-900 text-gray-200 border transition-all duration-300"
                 style={{
-                  borderColor: focusedField === "user_name" ? '#8245ec' : 'rgba(107, 114, 128, 0.5)',
-                  boxShadow: focusedField === "user_name" ? '0 0 10px rgba(130, 69, 236, 0.5)' : 'none',
+                  borderColor: focusedField === "user_name" || activeField === "user_name" 
+                    ? '#8245ec' 
+                    : 'rgba(107, 114, 128, 0.5)',
+                  boxShadow: focusedField === "user_name" || activeField === "user_name" 
+                    ? '0 0 10px rgba(130, 69, 236, 0.5)' 
+                    : 'none',
                 }}
               />
-              {focusedField === "user_name" && (
+              {(focusedField === "user_name" || activeField === "user_name") && (
                 <div 
                   className="absolute bottom-0 left-0 h-0.5 bg-purple-500"
                   style={{
@@ -339,15 +385,22 @@ const Contact = () => {
                 onChange={handleInputChange}
                 onFocus={() => setFocusedField("subject")}
                 onBlur={() => setFocusedField(null)}
+                onTouchStart={() => handleTouchStart("subject")}
+                onTouchEnd={handleTouchEnd}
+                onTouchCancel={handleTouchEnd}
                 placeholder="Subject"
                 required
                 className="w-full p-3 rounded-md bg-gray-900 text-gray-200 border transition-all duration-300"
                 style={{
-                  borderColor: focusedField === "subject" ? '#8245ec' : 'rgba(107, 114, 128, 0.5)',
-                  boxShadow: focusedField === "subject" ? '0 0 10px rgba(130, 69, 236, 0.5)' : 'none',
+                  borderColor: focusedField === "subject" || activeField === "subject" 
+                    ? '#8245ec' 
+                    : 'rgba(107, 114, 128, 0.5)',
+                  boxShadow: focusedField === "subject" || activeField === "subject" 
+                    ? '0 0 10px rgba(130, 69, 236, 0.5)' 
+                    : 'none',
                 }}
               />
-              {focusedField === "subject" && (
+              {(focusedField === "subject" || activeField === "subject") && (
                 <div 
                   className="absolute bottom-0 left-0 h-0.5 bg-purple-500"
                   style={{
@@ -367,16 +420,23 @@ const Contact = () => {
                 onChange={handleInputChange}
                 onFocus={() => setFocusedField("message")}
                 onBlur={() => setFocusedField(null)}
+                onTouchStart={() => handleTouchStart("message")}
+                onTouchEnd={handleTouchEnd}
+                onTouchCancel={handleTouchEnd}
                 placeholder="Message"
                 rows="4"
                 required
                 className="w-full p-3 rounded-md bg-gray-900 text-gray-200 border transition-all duration-300"
                 style={{
-                  borderColor: focusedField === "message" ? '#8245ec' : 'rgba(107, 114, 128, 0.5)',
-                  boxShadow: focusedField === "message" ? '0 0 10px rgba(130, 69, 236, 0.5)' : 'none',
+                  borderColor: focusedField === "message" || activeField === "message" 
+                    ? '#8245ec' 
+                    : 'rgba(107, 114, 128, 0.5)',
+                  boxShadow: focusedField === "message" || activeField === "message" 
+                    ? '0 0 10px rgba(130, 69, 236, 0.5)' 
+                    : 'none',
                 }}
               />
-              {focusedField === "message" && (
+              {(focusedField === "message" || activeField === "message") && (
                 <div 
                   className="absolute bottom-0 left-0 h-0.5 bg-purple-500"
                   style={{
@@ -389,38 +449,25 @@ const Contact = () => {
               )}
             </div>
             
-            {/* Send Button with enhanced styling and animation */}
+            {/* Send Button with enhanced styling and animation - Using state for touch handling */}
             <button
               type="submit"
-              className="w-full py-3 font-bold text-lg rounded-md relative overflow-hidden transition-all duration-300"
+              className={`w-full py-3 font-bold text-lg rounded-md relative overflow-hidden transition-all duration-300 ${buttonActive ? 'active-button' : ''}`}
               style={{
                 background: 'linear-gradient(135deg, #8245ec 0%, #d53f8c 100%)',
-                boxShadow: '0 0 15px rgba(130, 69, 236, 0.5), inset 0 0 10px rgba(213, 63, 140, 0.3)',
+                boxShadow: buttonActive
+                  ? '0 0 25px rgba(130, 69, 236, 0.7), inset 0 0 15px rgba(213, 63, 140, 0.5)'
+                  : '0 0 15px rgba(130, 69, 236, 0.5), inset 0 0 10px rgba(213, 63, 140, 0.3)',
                 color: 'white',
                 border: '1px solid rgba(255, 255, 255, 0.2)',
-                WebkitTapHighlightColor: 'rgba(0,0,0,0)', // Only override tap highlight for button
+                transform: buttonActive ? 'translateY(-2px)' : 'translateY(0)',
+                WebkitTapHighlightColor: 'rgba(0,0,0,0)',
               }}
-              onMouseEnter={(e) => {
-                if (!isMobile) { // Only apply hover effect on desktop
-                  e.target.style.boxShadow = '0 0 25px rgba(130, 69, 236, 0.7), inset 0 0 15px rgba(213, 63, 140, 0.5)';
-                  e.target.style.transform = 'translateY(-2px)';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!isMobile) { // Only apply hover effect on desktop
-                  e.target.style.boxShadow = '0 0 15px rgba(130, 69, 236, 0.5), inset 0 0 10px rgba(213, 63, 140, 0.3)';
-                  e.target.style.transform = 'translateY(0)';
-                }
-              }}
-              // Add touch event handlers for mobile
-              onTouchStart={(e) => {
-                e.currentTarget.style.boxShadow = '0 0 25px rgba(130, 69, 236, 0.7), inset 0 0 15px rgba(213, 63, 140, 0.5)';
-                e.currentTarget.style.transform = 'translateY(-2px)';
-              }}
-              onTouchEnd={(e) => {
-                e.currentTarget.style.boxShadow = '0 0 15px rgba(130, 69, 236, 0.5), inset 0 0 10px rgba(213, 63, 140, 0.3)';
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}
+              onMouseEnter={() => !isMobile && setButtonActive(true)}
+              onMouseLeave={() => !isMobile && setButtonActive(false)}
+              onTouchStart={() => setButtonActive(true)}
+              onTouchEnd={() => setButtonActive(false)}
+              onTouchCancel={() => setButtonActive(false)}
             >
               {/* Button animated light effect */}
               <div 
@@ -436,7 +483,7 @@ const Contact = () => {
             </button>
           </form>
 
-          {/* Floating particles for cyberpunk effect */}
+          {/* Floating particles for cyberpunk effect - reduced for mobile */}
           <div className="absolute inset-0 pointer-events-none">
             {Array.from({ length: isMobile ? 4 : 8 }).map((_, i) => (
               <div
@@ -480,6 +527,27 @@ const Contact = () => {
           100% {
             transform: translateY(${Math.random() > 0.5 ? '-' : ''}${Math.random() * 20 + 10}px) 
                        translateX(${Math.random() > 0.5 ? '-' : ''}${Math.random() * 20 + 10}px);
+          }
+        }
+        
+        /* Custom touch handling for mobile */
+        @media (max-width: 768px) {
+          :global(.active-button) {
+            box-shadow: 0 0 25px rgba(130, 69, 236, 0.7), inset 0 0 15px rgba(213, 63, 140, 0.5) !important;
+            transform: translateY(-2px) !important;
+          }
+          
+          /* Improve touch target sizes */
+          :global(#contact input),
+          :global(#contact textarea),
+          :global(#contact button) {
+            min-height: 44px;
+          }
+          
+          /* Prevent zoom on iOS */
+          :global(#contact input),
+          :global(#contact textarea) {
+            font-size: 16px !important;
           }
         }
         
