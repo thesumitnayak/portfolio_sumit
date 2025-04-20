@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -133,9 +133,12 @@ const Contact = () => {
                 onChange={handleInputChange}
                 placeholder="Your Email"
                 required
-                className="w-full p-3 rounded-md bg-gray-900 text-gray-200 border"
+                className="w-full p-3 rounded-md bg-gray-900 text-gray-200"
                 style={{
-                  borderColor: 'rgba(107, 114, 128, 0.5)',
+                  border: '1px solid rgba(107, 114, 128, 0.5)',
+                  WebkitTapHighlightColor: 'transparent',
+                  outline: 'none',
+                  caretColor: 'white',
                 }}
               />
             </div>
@@ -148,9 +151,12 @@ const Contact = () => {
                 onChange={handleInputChange}
                 placeholder="Your Name"
                 required
-                className="w-full p-3 rounded-md bg-gray-900 text-gray-200 border"
+                className="w-full p-3 rounded-md bg-gray-900 text-gray-200"
                 style={{
-                  borderColor: 'rgba(107, 114, 128, 0.5)',
+                  border: '1px solid rgba(107, 114, 128, 0.5)',
+                  WebkitTapHighlightColor: 'transparent',
+                  outline: 'none',
+                  caretColor: 'white',
                 }}
               />
             </div>
@@ -163,9 +169,12 @@ const Contact = () => {
                 onChange={handleInputChange}
                 placeholder="Subject"
                 required
-                className="w-full p-3 rounded-md bg-gray-900 text-gray-200 border"
+                className="w-full p-3 rounded-md bg-gray-900 text-gray-200"
                 style={{
-                  borderColor: 'rgba(107, 114, 128, 0.5)',
+                  border: '1px solid rgba(107, 114, 128, 0.5)',
+                  WebkitTapHighlightColor: 'transparent', 
+                  outline: 'none',
+                  caretColor: 'white',
                 }}
               />
             </div>
@@ -178,9 +187,12 @@ const Contact = () => {
                 placeholder="Message"
                 rows="4"
                 required
-                className="w-full p-3 rounded-md bg-gray-900 text-gray-200 border"
+                className="w-full p-3 rounded-md bg-gray-900 text-gray-200"
                 style={{
-                  borderColor: 'rgba(107, 114, 128, 0.5)',
+                  border: '1px solid rgba(107, 114, 128, 0.5)',
+                  WebkitTapHighlightColor: 'transparent',
+                  outline: 'none',
+                  caretColor: 'white',
                 }}
               />
             </div>
@@ -193,6 +205,8 @@ const Contact = () => {
                 background: 'linear-gradient(135deg, #8245ec 0%, #d53f8c 100%)',
                 color: 'white',
                 border: '1px solid rgba(255, 255, 255, 0.2)',
+                WebkitTapHighlightColor: 'transparent',
+                outline: 'none',
               }}
             >
               Send Message
