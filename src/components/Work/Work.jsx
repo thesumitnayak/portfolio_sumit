@@ -64,6 +64,12 @@ const Work = () => {
     setSelectedProject(null);
   };
 
+  // Function to check if live link should be shown
+  const shouldShowLiveLink = (projectId) => {
+    // Hide live links for projects with IDs 3, 4, and 5
+    return ![3, 4, 5].includes(projectId);
+  };
+
   return (
     <section
       id="work"
@@ -292,12 +298,12 @@ const Work = () => {
                     </span>
                   ))}
                 </div>
-                <div className="flex gap-4">
+                <div className={`flex ${shouldShowLiveLink(selectedProject.id) ? 'gap-4' : ''}`}>
                   <a
                     href={selectedProject.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-1/2 bg-gray-800 text-gray-300 lg:px-6 lg:py-2 px-2 py-1 rounded-xl lg:text-xl text-sm font-semibold text-center transition-all duration-300"
+                    className={`${shouldShowLiveLink(selectedProject.id) ? 'w-1/2' : 'w-full'} bg-gray-800 text-gray-300 lg:px-6 lg:py-2 px-2 py-1 rounded-xl lg:text-xl text-sm font-semibold text-center transition-all duration-300`}
                     style={{
                       border: '1px solid rgba(130, 69, 236, 0.5)',
                       boxShadow: '0 0 10px rgba(130, 69, 236, 0.3)',
@@ -313,25 +319,29 @@ const Work = () => {
                   >
                     View Code
                   </a>
-                  <a
-                    href={selectedProject.webapp}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-1/2 bg-purple-600 text-white lg:px-6 lg:py-2 px-2 py-1 rounded-xl lg:text-xl text-sm font-semibold text-center transition-all duration-300"
-                    style={{
-                      boxShadow: '0 0 15px rgba(130, 69, 236, 0.5)',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = '#9333ea';
-                      e.currentTarget.style.boxShadow = '0 0 20px rgba(130, 69, 236, 0.7)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = '#9c38dd';
-                      e.currentTarget.style.boxShadow = '0 0 15px rgba(130, 69, 236, 0.5)';
-                    }}
-                  >
-                    View Live
-                  </a>
+                  
+                  {/* Only render the live link button if it's not a project with ID 3, 4, or 5 */}
+                  {shouldShowLiveLink(selectedProject.id) && (
+                    <a
+                      href={selectedProject.webapp}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-1/2 bg-purple-600 text-white lg:px-6 lg:py-2 px-2 py-1 rounded-xl lg:text-xl text-sm font-semibold text-center transition-all duration-300"
+                      style={{
+                        boxShadow: '0 0 15px rgba(130, 69, 236, 0.5)',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = '#9333ea';
+                        e.currentTarget.style.boxShadow = '0 0 20px rgba(130, 69, 236, 0.7)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = '#9c38dd';
+                        e.currentTarget.style.boxShadow = '0 0 15px rgba(130, 69, 236, 0.5)';
+                      }}
+                    >
+                      View Live
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
