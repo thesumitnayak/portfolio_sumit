@@ -118,10 +118,21 @@ const Navbar = () => {
       )}
       
       <div className="text-white py-5 flex justify-between items-center relative z-10">
-        {/* Updated Logo with ⟦ Sumit Nayak ⟧ */}
+        {/* Logo with responsive treatment */}
         <div className="text-lg font-semibold cursor-pointer group relative">
+          {/* On mobile, show only the brackets when scrolled */}
           <span className="text-purple-500 transition-all duration-300 group-hover:text-purple-400">⟦</span>
-          <span className="text-white transition-all duration-300 group-hover:text-purple-100">&nbsp;Sumit&nbsp;Nayak&nbsp;</span>
+          <span className={`transition-all duration-300 group-hover:text-purple-100 ${
+            isScrolled ? "hidden xs:inline md:inline" : "inline"
+          }`}>
+            &nbsp;Sumit&nbsp;Nayak&nbsp;
+          </span>
+          {/* On mobile when scrolled, show initials instead of full name */}
+          <span className={`transition-all duration-300 group-hover:text-purple-100 ${
+            isScrolled ? "inline xs:hidden md:hidden" : "hidden"
+          }`}>
+            &nbsp;SN&nbsp;
+          </span>
           <span className="text-purple-500 transition-all duration-300 group-hover:text-purple-400">⟧</span>
           <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-purple-500 transition-all duration-500 group-hover:w-full" 
                 style={{ willChange: 'width' }}></span>
@@ -191,6 +202,13 @@ const Navbar = () => {
           willChange: 'transform, opacity'
         }}
       >
+        {/* Show full name in mobile menu */}
+        <div className="text-center mb-4 text-lg font-semibold">
+          <span className="text-purple-500">⟦</span>
+          <span className="text-white">&nbsp;Sumit&nbsp;Nayak&nbsp;</span>
+          <span className="text-purple-500">⟧</span>
+        </div>
+        
         <ul className="flex flex-col items-center space-y-4 text-gray-300">
           {menuItems.map((item) => (
             <li key={item.id} className="cursor-pointer w-full text-center">
