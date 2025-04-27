@@ -85,6 +85,7 @@ const Navbar = () => {
     { id: "skills", label: "Skills" },
     { id: "experience", label: "Experience" },
     { id: "work", label: "Projects" },
+    { id: "contact", label: "Contact" }, // Added contact to menu items
   ];
 
   return (
@@ -95,7 +96,10 @@ const Navbar = () => {
           ? "md:bg-[#050414] md:bg-opacity-60 md:backdrop-blur-md md:shadow-lg md:border-b md:border-purple-600 md:border-opacity-30" 
           : "bg-transparent"
       }`}
-      style={{ willChange: 'background, box-shadow' }}
+      style={{ 
+        willChange: 'background, box-shadow',
+        height: isOpen ? 'auto' : '70px' // Fixed height when closed
+      }}
     >
       {mousePosition && !isScrolling && (
         <div 
@@ -191,61 +195,60 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div
-        className={`w-full bg-[#050414] bg-opacity-90 ${
-          isOpen ? "backdrop-blur-lg" : ""
-        } py-4 md:hidden rounded-b-xl border-b border-l border-r border-purple-600 border-opacity-30 shadow-lg transition-all duration-500 transform ${
-          isOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10 pointer-events-none"
-        }`}
-        style={{
-          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.1), 0 0 10px rgba(155, 77, 202, 0.2)',
-          willChange: 'transform, opacity'
-        }}
-      >
-        {/* Show full name in mobile menu */}
-        <div className="text-center mb-4 text-lg font-semibold">
-          <span className="text-purple-500">⟦</span>
-          <span className="text-white">&nbsp;Sumit&nbsp;Nayak&nbsp;</span>
-          <span className="text-purple-500">⟧</span>
-        </div>
-        
-        <ul className="flex flex-col items-center space-y-4 text-gray-300">
-          {menuItems.map((item) => (
-            <li key={item.id} className="cursor-pointer w-full text-center">
-              <button 
-                onClick={() => handleMenuItemClick(item.id)}
-                className={`py-2 px-6 relative inline-block transition-all duration-300 ${
-                  activeSection === item.id 
-                    ? "text-[#9b4dca]" 
-                    : "text-gray-300 hover:text-white"
-                }`}
-                style={{
-                  textShadow: activeSection === item.id ? "0 0 8px rgba(155, 77, 202, 0.6)" : "none"
-                }}
-              >
-                {item.label}
-                {activeSection === item.id && (
-                  <span className="absolute bottom-0 left-1/2 w-2 h-2 bg-[#9b4dca] rounded-full transform -translate-x-1/2 translate-y-1/2"></span>
-                )}
-              </button>
-            </li>
-          ))}
-          <div className="flex justify-center items-center space-x-6 pt-4 border-t border-purple-600 border-opacity-20 w-3/4">
-            <a href="https://github.com/thesumitnayak" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-[#9b4dca] transition-colors duration-300">
-              <FaGithub size={20} />
-            </a>
-            <a href="https://www.upwork.com/freelancers/~01dc8c28243fc3d432" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-[#9b4dca] transition-colors duration-300">
-              <FaUpwork size={20} />
-            </a>
-            <a href="https://www.fiverr.com/iamsumitnayak/" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-[#9b4dca] transition-colors duration-300">
-              <TbBrandFiverr size={20} />
-            </a>
-            <a href="https://www.instagram.com/thesumitnayak?igsh=YjBibm5maHdteWVh&utm_source=qr" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-[#9b4dca] transition-colors duration-300">
-              <FaInstagram size={20} />
-            </a>
+      {/* Mobile menu - Only rendered when isOpen is true */}
+      {isOpen && (
+        <div
+          className="w-full bg-[#050414] bg-opacity-90 backdrop-blur-lg py-4 md:hidden rounded-b-xl border-b border-l border-r border-purple-600 border-opacity-30 shadow-lg transition-all duration-500 transform opacity-100 translate-y-0"
+          style={{
+            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.1), 0 0 10px rgba(155, 77, 202, 0.2)',
+            willChange: 'transform, opacity'
+          }}
+        >
+          {/* Show full name in mobile menu */}
+          <div className="text-center mb-4 text-lg font-semibold">
+            <span className="text-purple-500">⟦</span>
+            <span className="text-white">&nbsp;Sumit&nbsp;Nayak&nbsp;</span>
+            <span className="text-purple-500">⟧</span>
           </div>
-        </ul>
-      </div>
+          
+          <ul className="flex flex-col items-center space-y-4 text-gray-300">
+            {menuItems.map((item) => (
+              <li key={item.id} className="cursor-pointer w-full text-center">
+                <button 
+                  onClick={() => handleMenuItemClick(item.id)}
+                  className={`py-2 px-6 relative inline-block transition-all duration-300 ${
+                    activeSection === item.id 
+                      ? "text-[#9b4dca]" 
+                      : "text-gray-300 hover:text-white"
+                  }`}
+                  style={{
+                    textShadow: activeSection === item.id ? "0 0 8px rgba(155, 77, 202, 0.6)" : "none"
+                  }}
+                >
+                  {item.label}
+                  {activeSection === item.id && (
+                    <span className="absolute bottom-0 left-1/2 w-2 h-2 bg-[#9b4dca] rounded-full transform -translate-x-1/2 translate-y-1/2"></span>
+                  )}
+                </button>
+              </li>
+            ))}
+            <div className="flex justify-center items-center space-x-6 pt-4 border-t border-purple-600 border-opacity-20 w-3/4">
+              <a href="https://github.com/thesumitnayak" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-[#9b4dca] transition-colors duration-300">
+                <FaGithub size={20} />
+              </a>
+              <a href="https://www.upwork.com/freelancers/~01dc8c28243fc3d432" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-[#9b4dca] transition-colors duration-300">
+                <FaUpwork size={20} />
+              </a>
+              <a href="https://www.fiverr.com/iamsumitnayak/" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-[#9b4dca] transition-colors duration-300">
+                <TbBrandFiverr size={20} />
+              </a>
+              <a href="https://www.instagram.com/thesumitnayak?igsh=YjBibm5maHdteWVh&utm_source=qr" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-[#9b4dca] transition-colors duration-300">
+                <FaInstagram size={20} />
+              </a>
+            </div>
+          </ul>
+        </div>
+      )}
     </nav>
   );
 };
