@@ -238,7 +238,7 @@ const About = () => {
             >
               <Stat value="3+" label="Years exp." />
               <div style={{ width: 1, height: 32, background: "rgba(124,58,237,0.2)" }} />
-              <Stat value="6+" label="Projects" />
+              <Stat value="18+" label="Projects" />
               <div style={{ width: 1, height: 32, background: "rgba(124,58,237,0.2)" }} />
               <Stat value="2nd" label="Hackathon" />
             </motion.div>
