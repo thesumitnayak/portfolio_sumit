@@ -118,6 +118,7 @@ export const experiences = [
       "JavaScript",
       "Angular",
       "TypeScript",
+      "NodeJS",
       "Java",
       "RESTful API's",
       "Kubernetes",

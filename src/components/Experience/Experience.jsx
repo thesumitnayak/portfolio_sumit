@@ -1,293 +1,236 @@
-import React, { useState, useEffect, useRef } from "react";
-import { experiences } from "../../constants"; // Import your data
-import Tilt from 'react-parallax-tilt';
+// components/Experience/Experience.jsx
+// ─────────────────────────────────────────
+import React, { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { experiences } from "../../constants";
 
-const Experience = () => {
-  // State for the mouse position to create a spotlight effect
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  
-  // For glitch effect on hover
-  const [hoveringCard, setHoveringCard] = useState(null);
-  
-  // For tracking scroll state to optimize rendering
-  const [isScrolling, setIsScrolling] = useState(false);
-  
-  // Ref for throttling mouse move events
-  const mouseMoveThrottleRef = useRef(null);
-  const scrollThrottleRef = useRef(null);
-  
-  // Track scroll state to disable intensive effects while scrolling
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolling(true);
-      
-      // Clear any existing timeout
-      if (scrollThrottleRef.current) {
-        clearTimeout(scrollThrottleRef.current);
-      }
-      
-      // Set a timeout to mark scrolling as finished after 200ms of no scroll events
-      scrollThrottleRef.current = setTimeout(() => {
-        setIsScrolling(false);
-      }, 200);
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      if (scrollThrottleRef.current) {
-        clearTimeout(scrollThrottleRef.current);
-      }
-    };
-  }, []);
-  
-  // Track mouse position for spotlight effect with throttling
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      if (!mouseMoveThrottleRef.current) {
-        mouseMoveThrottleRef.current = setTimeout(() => {
-          setMousePosition({ x: e.clientX, y: e.clientY });
-          mouseMoveThrottleRef.current = null;
-        }, 30); // Throttle to max 30ms (about 33fps)
-      }
-    };
-    
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      if (mouseMoveThrottleRef.current) {
-        clearTimeout(mouseMoveThrottleRef.current);
-      }
-    };
-  }, []);
-
-  return (
-    <section
-      id="experience"
-      className="py-24 pb-24 px-4 md:px-8 lg:px-20 font-sans relative overflow-hidden"
+// ── Reuse the same SectionHeader pattern ──
+const SectionHeader = ({ label, title, subtitle }) => (
+  <div className="text-center mb-20">
+    <motion.p
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
+      className="section-label mb-3"
+    >
+      {label}
+    </motion.p>
+    <motion.h2
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay: 0.08 }}
       style={{
-        background: 'linear-gradient(135deg, #0f0f1e 0%, #1a1a35 100%)',
-        boxShadow: 'inset 0 0 80px rgba(130, 69, 236, 0.2)',
-        willChange: 'auto'
+        fontFamily: "'Syne', sans-serif",
+        fontWeight: 800,
+        fontSize: "clamp(2rem, 5vw, 3rem)",
+        letterSpacing: "-0.02em",
+        color: "#f0eeff",
+        marginBottom: "1rem",
       }}
     >
-      {/* Background animated gradient - only show when not scrolling */}
-      {!isScrolling && (
-        <div 
-          className="absolute inset-0 opacity-20" 
-          style={{
-            background: `radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(130, 69, 236, 0.6) 0%, rgba(18, 18, 40, 0) 30%)`,
-            pointerEvents: 'none',
-            willChange: 'background'
-          }}
-        />
-      )}
-      
-      {/* Cyberpunk-inspired grid overlay - less intensive when scrolling */}
-      <div
-        className={`absolute inset-0 ${isScrolling ? 'opacity-5' : 'opacity-10'}`}
+      {title}
+    </motion.h2>
+    {subtitle && (
+      <motion.p
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.16 }}
         style={{
-          backgroundImage: 'linear-gradient(0deg, transparent 24%, rgba(130, 69, 236, 0.3) 25%, rgba(130, 69, 236, 0.3) 26%, transparent 27%, transparent 74%, rgba(130, 69, 236, 0.3) 75%, rgba(130, 69, 236, 0.3) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(130, 69, 236, 0.3) 25%, rgba(130, 69, 236, 0.3) 26%, transparent 27%, transparent 74%, rgba(130, 69, 236, 0.3) 75%, rgba(130, 69, 236, 0.3) 76%, transparent 77%, transparent)',
-          backgroundSize: '50px 50px',
-          pointerEvents: 'none'
+          fontFamily: "'Manrope', sans-serif",
+          fontSize: "0.95rem",
+          color: "#6b6a8a",
+          maxWidth: "52ch",
+          margin: "0 auto",
+          lineHeight: 1.7,
         }}
-      />
+      >
+        {subtitle}
+      </motion.p>
+    )}
+  </div>
+);
 
-      {/* Removed the animated corner accents that were causing the boundary issue */}
+// ── Single experience card ──
+const ExperienceCard = ({ experience, index }) => {
+  const ref    = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const isEven = index % 2 === 0;
 
-      {/* Section Title with neon effect */}
-      <div className="text-center mb-16 relative z-10">
-        <h2 
-          className="text-4xl font-bold transition-all duration-300"
+  return (
+    <div
+      ref={ref}
+      className={`relative flex ${
+        isEven
+          ? "flex-col md:flex-row"
+          : "flex-col md:flex-row-reverse"
+      } items-start gap-0 md:gap-8`}
+    >
+      {/* ── Card ── */}
+      <motion.div
+        initial={{ opacity: 0, x: isEven ? -40 : 40 }}
+        animate={inView ? { opacity: 1, x: 0 } : {}}
+        transition={{ duration: 0.65, ease: [0.4, 0, 0.2, 1], delay: 0.1 }}
+        className="md:w-[calc(50%-2.5rem)] rounded-2xl p-6 transition-all duration-400 group"
+        style={{
+          background: "rgba(255,255,255,0.025)",
+          border: "1px solid rgba(124,58,237,0.1)",
+          backdropFilter: "blur(10px)",
+          marginLeft: "3rem",  // leave space for dot on mobile
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.borderColor = "rgba(124,58,237,0.25)";
+          e.currentTarget.style.boxShadow = "0 8px 40px rgba(124,58,237,0.12)";
+          e.currentTarget.style.transform = "translateY(-3px)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.borderColor = "rgba(124,58,237,0.1)";
+          e.currentTarget.style.boxShadow = "none";
+          e.currentTarget.style.transform = "translateY(0)";
+        }}
+      >
+        {/* Company header */}
+        <div className="flex items-center gap-4 mb-5">
+          <div
+            className="w-11 h-11 rounded-xl overflow-hidden flex-shrink-0 p-1.5"
+            style={{
+              background: "rgba(255,255,255,0.05)",
+              border: "1px solid rgba(124,58,237,0.15)",
+            }}
+          >
+            <img
+              src={experience.img}
+              alt={experience.company}
+              className="w-full h-full object-contain"
+            />
+          </div>
+          <div>
+            <h3
+              style={{
+                fontFamily: "'Syne', sans-serif",
+                fontWeight: 700,
+                fontSize: "1.05rem",
+                color: "#f0eeff",
+                lineHeight: 1.2,
+              }}
+            >
+              {experience.role}
+            </h3>
+            <div className="flex items-center gap-2 mt-0.5">
+              <span
+                style={{
+                  fontFamily: "'Manrope', sans-serif",
+                  fontSize: "0.8rem",
+                  fontWeight: 500,
+                  color: "#c4b0ff",
+                }}
+              >
+                {experience.company}
+              </span>
+              <span style={{ color: "#4a4868", fontSize: "0.7rem" }}>·</span>
+              <span
+                style={{
+                  fontFamily: "'Manrope', sans-serif",
+                  fontSize: "0.75rem",
+                  color: "#6b6a8a",
+                }}
+              >
+                {experience.date}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Description */}
+        <p
           style={{
-            color: '#8245ec',
-            // textShadow: '0 0 5px #8245ec, 0 0 15px #8245ec',
-            willChange: 'text-shadow'
+            fontFamily: "'Manrope', sans-serif",
+            fontSize: "0.875rem",
+            lineHeight: 1.75,
+            color: "#8b8aaa",
+            marginBottom: "1.25rem",
+            paddingLeft: "0.75rem",
+            borderLeft: "2px solid rgba(124,58,237,0.25)",
           }}
         >
-          EXPERIENCE
-        </h2>
-        <div className="w-32 h-1 bg-purple-500 mx-auto mt-4"></div>
-        <p className="text-gray-300 mt-4 text-lg font-semibold max-w-2xl mx-auto">
-          A collection of my professional journey, highlighting the roles and impact I've made across organizations
+          {experience.desc}
         </p>
-      </div>
 
-      {/* Experience Timeline */}
-      <div className="relative z-10">
-        {/* Vertical line with glowing effect */}
-        <div 
-          className="absolute sm:left-1/2 left-8 transform -translate-x-1/2 sm:-translate-x-0 w-1 h-full"
+        {/* Skills */}
+        <div className="flex flex-wrap gap-1.5">
+          {experience.skills.map((skill) => (
+            <span key={skill} className="tag-pill">
+              {skill}
+            </span>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* ── Timeline dot (centered on md+) ── */}
+      <motion.div
+        initial={{ scale: 0, opacity: 0 }}
+        animate={inView ? { scale: 1, opacity: 1 } : {}}
+        transition={{ duration: 0.4, delay: 0.25, type: "spring", stiffness: 200 }}
+        className="absolute left-0 md:left-1/2 top-6 md:top-7 md:-translate-x-1/2 z-10 flex-shrink-0"
+      >
+        <div
+          className="relative w-5 h-5 rounded-full"
           style={{
-            background: 'linear-gradient(to bottom, rgba(130, 69, 236, 0.8) 0%, rgba(130, 69, 236, 0.3) 100%)',
-            boxShadow: '0 0 8px rgba(130, 69, 236, 0.6)',
-            willChange: 'auto'
+            background: "linear-gradient(135deg, #7c3aed, #4c1d95)",
+            boxShadow: "0 0 0 4px rgba(124,58,237,0.15), 0 0 20px rgba(124,58,237,0.4)",
           }}
-        ></div>
-
-        {/* Experience Entries */}
-        {experiences.map((experience, index) => (
-          <div
-            key={experience.id}
-            className={`flex flex-col sm:flex-row items-center mb-16 ${
-              index % 2 === 0 ? "sm:justify-end" : "sm:justify-start"
-            }`}
-          >
-            {/* Timeline Circle with pulse animation */}
-            <div 
-              className="absolute sm:left-1/2 left-8 transform -translate-x-1/2 z-10"
-              style={{
-                willChange: 'transform'
-              }}
-            >
-              <div className="relative">
-                <div className="bg-gray-900 border-4 border-purple-500 w-12 h-12 sm:w-16 sm:h-16 rounded-full flex justify-center items-center overflow-hidden">
-                  <img
-                    src={experience.img}
-                    alt={experience.company}
-                    className="w-3/4 h-3/4 object-contain"
-                  />
-                </div>
-                {/* Pulsing circle animation */}
-                <div 
-                  className="absolute top-0 left-0 w-full h-full rounded-full animate-ping"
-                  style={{ 
-                    border: '2px solid #8245ec',
-                    animationDuration: '3s',
-                    opacity: 0.6
-                  }}
-                ></div>
-              </div>
-            </div>
-
-            {/* Content Section with Tilt effect */}
-            <Tilt
-              className={`w-full sm:max-w-md sm:p-0 rounded-2xl ${
-                index % 2 === 0 ? "sm:mr-auto sm:ml-8 sm:pr-16" : "sm:ml-auto sm:mr-8 sm:pl-16"
-              } ml-16 sm:ml-0 mt-2 sm:mt-0`}
-              tiltMaxAngleX={5} 
-              tiltMaxAngleY={5} 
-              perspective={1000}
-              scale={1.02}
-              transitionSpeed={1000}
-              gyroscope={false}
-              glareEnable={false}
-              style={{
-                willChange: 'transform'
-              }}
-            >
-              <div 
-                className={`p-6 rounded-2xl border transition-all duration-300 relative overflow-hidden bg-gray-900 backdrop-filter backdrop-blur-md`}
-                style={{
-                  borderColor: hoveringCard === experience.id ? '#8245ec' : 'rgba(255, 255, 255, 0.1)',
-                  boxShadow: hoveringCard === experience.id 
-                    ? '0 0 20px rgba(130, 69, 236, 0.6), inset 0 0 8px rgba(130, 69, 236, 0.4)'
-                    : '0 0 15px rgba(130, 69, 236, 0.3)',
-                  willChange: 'transform, box-shadow'
-                }}
-                onMouseEnter={() => setHoveringCard(experience.id)}
-                onMouseLeave={() => setHoveringCard(null)}
-              >
-                {/* Company Logo and Info Layout */}
-                <div className="flex items-center space-x-4 mb-4">
-                  {/* Company Logo with glowing border */}
-                  <div 
-                    className="w-14 h-14 rounded-lg overflow-hidden flex items-center justify-center bg-gray-800 p-2"
-                    style={{
-                      boxShadow: '0 0 10px rgba(130, 69, 236, 0.5)',
-                      willChange: 'auto'
-                    }}
-                  >
-                    <img
-                      src={experience.img}
-                      alt={experience.company}
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                  
-                  {/* Role, Company Name, and Date */}
-                  <div className="flex-1">
-                    <h3 
-                      className="text-xl font-semibold"
-                      style={{
-                        color: '#8245ec',
-                        textShadow: hoveringCard === experience.id ? '0 0 8px rgba(130, 69, 236, 0.8)' : 'none',
-                        willChange: 'text-shadow'
-                      }}
-                    >
-                      {experience.role}
-                    </h3>
-                    <h4 className="text-white font-medium">{experience.company}</h4>
-                    <p 
-                      className="text-sm mt-1"
-                      style={{
-                        color: 'rgba(255, 255, 255, 0.6)'
-                      }}
-                    >
-                      {experience.date}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Description with subtle animation */}
-                <div 
-                  className="mt-4 text-gray-300 leading-relaxed"
-                  style={{
-                    borderLeft: '2px solid rgba(130, 69, 236, 0.5)',
-                    paddingLeft: '12px',
-                    willChange: 'auto'
-                  }}
-                >
-                  {experience.desc}
-                </div>
-
-                {/* Skills */}
-                <div className="mt-5">
-                  <h5 
-                    className="font-medium text-white mb-2"
-                    style={{
-                      color: 'rgba(255, 255, 255, 0.9)'
-                    }}
-                  >
-                    Skills:
-                  </h5>
-                  <ul className="flex flex-wrap">
-                    {experience.skills.map((skill, idx) => (
-                      <li
-                        key={idx}
-                        className="px-3 py-1 text-xs rounded-md mr-2 mb-2 transition-all duration-300"
-                        style={{
-                          background: 'rgba(130, 69, 236, 0.2)',
-                          border: '1px solid rgba(130, 69, 236, 0.5)',
-                          color: 'rgba(255, 255, 255, 0.8)',
-                          boxShadow: hoveringCard === experience.id ? '0 0 8px rgba(130, 69, 236, 0.3)' : 'none',
-                          transform: hoveringCard === experience.id ? 'translateY(-1px)' : 'none',
-                          willChange: 'transform, box-shadow'
-                        }}
-                      >
-                        {skill}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                
-                {/* Animated highlight corner for cyberpunk aesthetic */}
-                <div 
-                  className="absolute top-0 right-0 w-12 h-12"
-                  style={{
-                    background: 'linear-gradient(135deg, transparent 50%, rgba(130, 69, 236, 0.6) 50%)',
-                    opacity: hoveringCard === experience.id ? 1 : 0.6,
-                    transition: 'opacity 0.3s ease',
-                    willChange: 'opacity'
-                  }}
-                ></div>
-              </div>
-            </Tilt>
-          </div>
-        ))}
-      </div>
-    </section>
+        >
+          <img
+            src={experience.img}
+            alt={experience.company}
+            className="absolute inset-0.5 rounded-full object-contain"
+          />
+        </div>
+      </motion.div>
+    </div>
   );
 };
+
+const Experience = () => (
+  <section
+    id="experience"
+    className="relative py-24 md:py-32 px-6 md:px-12 lg:px-24"
+  >
+    <div className="max-w-5xl mx-auto">
+      <SectionHeader
+        label="Career Journey"
+        title="Experience"
+        subtitle="Roles and contributions that shaped my expertise across industry-leading organizations."
+      />
+
+      {/* Timeline wrapper */}
+      <div className="relative">
+        {/* Vertical line — only visible on md+ */}
+        <div
+          className="absolute hidden md:block left-1/2 top-0 bottom-0 w-px -translate-x-1/2"
+          style={{
+            background: "linear-gradient(to bottom, transparent, rgba(124,58,237,0.3) 10%, rgba(124,58,237,0.3) 90%, transparent)",
+          }}
+        />
+
+        {/* Mobile vertical line */}
+        <div
+          className="absolute md:hidden left-2.5 top-0 bottom-0 w-px"
+          style={{
+            background: "linear-gradient(to bottom, transparent, rgba(124,58,237,0.25) 10%, rgba(124,58,237,0.25) 90%, transparent)",
+          }}
+        />
+
+        <div className="flex flex-col gap-12">
+          {experiences.map((exp, i) => (
+            <ExperienceCard key={exp.id} experience={exp} index={i} />
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+);
 
 export default Experience;
