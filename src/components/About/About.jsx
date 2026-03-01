@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import Tilt from "react-parallax-tilt";
-import profileImage from "/24501.jpg";
+import profileImage from "/coat.png";
 
 // ── Reusable fade-up animation variant ──
 const fadeUp = {
@@ -25,19 +25,25 @@ const ROLES = [
 ];
 
 const TypingRole = () => {
-  const [roleIdx, setRoleIdx]     = useState(0);
+  const [roleIdx, setRoleIdx] = useState(0);
   const [displayed, setDisplayed] = useState("");
-  const [deleting,  setDeleting]  = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const timeoutRef = useRef(null);
 
   useEffect(() => {
     const current = ROLES[roleIdx];
     if (!deleting && displayed.length < current.length) {
-      timeoutRef.current = setTimeout(() => setDisplayed(current.slice(0, displayed.length + 1)), 80);
+      timeoutRef.current = setTimeout(
+        () => setDisplayed(current.slice(0, displayed.length + 1)),
+        80,
+      );
     } else if (!deleting && displayed.length === current.length) {
       timeoutRef.current = setTimeout(() => setDeleting(true), 2200);
     } else if (deleting && displayed.length > 0) {
-      timeoutRef.current = setTimeout(() => setDisplayed(current.slice(0, displayed.length - 1)), 40);
+      timeoutRef.current = setTimeout(
+        () => setDisplayed(current.slice(0, displayed.length - 1)),
+        40,
+      );
     } else if (deleting && displayed.length === 0) {
       setDeleting(false);
       setRoleIdx((i) => (i + 1) % ROLES.length);
@@ -86,7 +92,7 @@ const Stat = ({ value, label }) => (
 );
 
 const About = () => {
-  const ref    = useRef(null);
+  const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
@@ -193,10 +199,10 @@ const About = () => {
             >
               Full Stack Developer with 3+ years building scalable digital
               experiences. I architect solutions across the MERN/MEAN stack,
-              TypeScript, Java + Spring Boot, and Kotlin — and once clinched
-              2nd place in a hackathon with 1,400+ teams. My code is clean,
-              my commits meaningful, and my APIs RESTful enough to come with
-              a pillow.
+              TypeScript, Java + Spring Boot, and Kotlin — and once clinched 2nd
+              place in a hackathon with 1,400+ teams. My code is clean, my
+              commits meaningful, and my APIs RESTful enough to come with a
+              pillow.
             </motion.p>
 
             {/* CTA buttons */}
@@ -212,15 +218,28 @@ const About = () => {
                 className="btn-primary"
               >
                 Let's Work Together
-                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                <svg
+                  width="14"
+                  height="14"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  />
                 </svg>
               </a>
               <a
                 href="#work"
                 onClick={(e) => {
                   e.preventDefault();
-                  document.getElementById("work")?.scrollIntoView({ behavior: "smooth" });
+                  document
+                    .getElementById("work")
+                    ?.scrollIntoView({ behavior: "smooth" });
                 }}
                 className="btn-ghost"
               >
@@ -237,9 +256,21 @@ const About = () => {
               className="flex items-center gap-8"
             >
               <Stat value="3+" label="Years exp." />
-              <div style={{ width: 1, height: 32, background: "rgba(124,58,237,0.2)" }} />
+              <div
+                style={{
+                  width: 1,
+                  height: 32,
+                  background: "rgba(124,58,237,0.2)",
+                }}
+              />
               <Stat value="18+" label="Projects" />
-              <div style={{ width: 1, height: 32, background: "rgba(124,58,237,0.2)" }} />
+              <div
+                style={{
+                  width: 1,
+                  height: 32,
+                  background: "rgba(124,58,237,0.2)",
+                }}
+              />
               <Stat value="2nd" label="Hackathon" />
             </motion.div>
           </div>
@@ -247,7 +278,9 @@ const About = () => {
           {/* ── Right column — Profile image ── */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
-            animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
+            animate={
+              inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }
+            }
             transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1], delay: 0.25 }}
             className="flex-shrink-0"
           >
@@ -264,7 +297,8 @@ const About = () => {
               <div
                 className="absolute -inset-4 rounded-full"
                 style={{
-                  background: "radial-gradient(circle, rgba(124,58,237,0.25) 0%, transparent 70%)",
+                  background:
+                    "radial-gradient(circle, rgba(124,58,237,0.25) 0%, transparent 70%)",
                   filter: "blur(20px)",
                 }}
               />
@@ -276,13 +310,14 @@ const About = () => {
                   width: "clamp(220px, 28vw, 360px)",
                   height: "clamp(220px, 28vw, 360px)",
                   border: "1px solid rgba(124,58,237,0.3)",
-                  boxShadow: "0 0 60px rgba(124,58,237,0.2), inset 0 0 40px rgba(124,58,237,0.05)",
+                  boxShadow:
+                    "0 0 60px rgba(124,58,237,0.2), inset 0 0 40px rgba(124,58,237,0.05)",
                 }}
               >
                 <img
                   src={profileImage}
                   alt="Sumit Nayak"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover object-[center_18%]"
                   style={{ filter: "brightness(0.95) contrast(1.05)" }}
                 />
                 {/* Subtle inner gradient overlay */}
@@ -299,7 +334,11 @@ const About = () => {
               {/* Floating badge — hackathon */}
               <motion.div
                 animate={{ y: [0, -6, 0] }}
-                transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+                transition={{
+                  duration: 3.5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
                 className="absolute -bottom-2 -right-4 glass-card rounded-xl px-3 py-2"
                 style={{
                   background: "rgba(10,10,26,0.9)",
@@ -310,10 +349,24 @@ const About = () => {
                 <div className="flex items-center gap-2">
                   <span style={{ fontSize: "1.2rem" }}>🏆</span>
                   <div>
-                    <p style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: "0.75rem", color: "#f0eeff", lineHeight: 1.2 }}>
+                    <p
+                      style={{
+                        fontFamily: "'Syne', sans-serif",
+                        fontWeight: 700,
+                        fontSize: "0.75rem",
+                        color: "#f0eeff",
+                        lineHeight: 1.2,
+                      }}
+                    >
                       2nd Place
                     </p>
-                    <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: "0.62rem", color: "#8b8aaa" }}>
+                    <p
+                      style={{
+                        fontFamily: "'Manrope', sans-serif",
+                        fontSize: "0.62rem",
+                        color: "#8b8aaa",
+                      }}
+                    >
                       1,400+ teams
                     </p>
                   </div>
@@ -331,14 +384,25 @@ const About = () => {
         transition={{ delay: 1.5, duration: 0.8 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
-        <span style={{ fontFamily: "'Manrope', sans-serif", fontSize: "0.65rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "#4a4868" }}>
+        <span
+          style={{
+            fontFamily: "'Manrope', sans-serif",
+            fontSize: "0.65rem",
+            letterSpacing: "0.15em",
+            textTransform: "uppercase",
+            color: "#4a4868",
+          }}
+        >
           Scroll
         </span>
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
           className="w-px h-8"
-          style={{ background: "linear-gradient(to bottom, rgba(124,58,237,0.5), transparent)" }}
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(124,58,237,0.5), transparent)",
+          }}
         />
       </motion.div>
 
